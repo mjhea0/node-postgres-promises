@@ -12,6 +12,8 @@ var connectionString = 'postgres://localhost:5432/puppies';
 var db = pgp(connectionString);
 
 
+// *** route handlers *** //
+
 // return ALL puppies
 router.get('/api/puppies', function(req, res, next) {
   db.any('select * from pups')
@@ -29,7 +31,8 @@ router.get('/api/puppies', function(req, res, next) {
 });
 
 // return SINGLE puppy
-router.get('/api/puppies/:id', function(req, res, next) {
+router.get('/api/puppies/:id', checkID,
+  function(req, res, next) {
   var pupID = req.params.id;
   db.one('select * from pups where id = $1', pupID)
     .then(function(data) {
@@ -61,7 +64,8 @@ router.post('/api/puppies', function(req, res, next) {
 });
 
 // update puppy
-router.put('/api/puppies/:id', function(req, res, next) {
+router.put('/api/puppies/:id', checkID,
+  function(req, res, next) {
   db.none('update pups set $1~=$2 where id=$3', [req.body.column, req.body.value, req.params.id])
     .then(function() {
       res.status(200)
@@ -76,7 +80,8 @@ router.put('/api/puppies/:id', function(req, res, next) {
 });
 
 // remove puppy
-router.delete('/api/puppies/:id', function(req, res, next) {
+router.delete('/api/puppies/:id', checkID,
+  function(req, res, next) {
   var pupID = req.params.id;
   db.result('delete from pups where id = $1', pupID)
     .then(function(result) {
@@ -92,6 +97,34 @@ router.delete('/api/puppies/:id', function(req, res, next) {
       return next(err);
     });
 });
+
+
+// *** helper functions ** //
+
+function checkID(req, res, next) {
+  var pupID = req.params.id;
+  db.one('select id from pups where id = $1', pupID)
+    .then(function(data) {
+      return next();
+    })
+    .catch(function(err) {
+      /* jshint ignore:start */
+      res.status(400)
+        .json({
+          status: 'error',
+          message: `ID '${pupID}' does not exist.`
+        });
+      /* jshint ignore:end */
+    });
+}
+
+function validPostObject() {
+
+}
+
+function validPutObject() {
+
+}
 
 
 module.exports = router;
