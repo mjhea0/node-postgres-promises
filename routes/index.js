@@ -49,7 +49,8 @@ router.get('/api/puppies/:id', checkID,
 });
 
 // insert puppy
-router.post('/api/puppies', function(req, res, next) {
+router.post('/api/puppies', validPayload,
+  function(req, res, next) {
   db.none('insert into pups(name, breed, age, sex) values(${name}, ${breed}, ${age}, ${sex})', req.body)
     .then(function() {
       res.status(200)
@@ -64,7 +65,7 @@ router.post('/api/puppies', function(req, res, next) {
 });
 
 // update puppy
-router.put('/api/puppies/:id', checkID,
+router.put('/api/puppies/:id', checkID, validPayload,
   function(req, res, next) {
   db.none('update pups set $1~=$2 where id=$3', [req.body.column, req.body.value, req.params.id])
     .then(function() {
@@ -118,13 +119,25 @@ function checkID(req, res, next) {
     });
 }
 
-function validPostObject() {
-
+function validPayload(req, res, next) {
+  var keys;
+  if (req.method === 'POST') {
+    keys = ['name', 'breed', 'age', 'sex'];
+  } else if (req.method === 'PUT') {
+    keys = ['column', 'value'];
+  }
+  keys.forEach(function(key){
+    if(!(key in req.body)) {
+      /* jshint ignore:start */
+      return res.status(400)
+        .json({
+          status: 'error',
+          message: `Invalid JSON. '${key}' does not exist.`
+        });
+      /* jshint ignore:end */
+    }
+  });
+  return next();
 }
-
-function validPutObject() {
-
-}
-
 
 module.exports = router;
