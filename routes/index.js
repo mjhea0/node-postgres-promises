@@ -79,12 +79,14 @@ router.put('/api/puppies/:id', function(req, res, next) {
 router.delete('/api/puppies/:id', function(req, res, next) {
   var pupID = req.params.id;
   db.result('delete from pups where id = $1', pupID)
-    .then(function() {
+    .then(function(result) {
+      /* jshint ignore:start */
       res.status(200)
         .json({
           status: 'success',
-          message: 'Removed puppy'
+          message: `Removed ${result.rowCount} puppy`
         });
+      /* jshint ignore:end */
     })
     .catch(function(err) {
       return next(err);
