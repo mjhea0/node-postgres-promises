@@ -51,7 +51,9 @@ router.get('/api/puppies/:id', checkID,
 // insert puppy
 router.post('/api/puppies', validPayload,
   function(req, res, next) {
-  db.none('insert into pups(name, breed, age, sex) values(${name}, ${breed}, ${age}, ${sex})', req.body)
+  db.none('insert into pups(name, breed, age, sex)'+
+          'values(${name}, ${breed}, ${age}, ${sex})',
+          req.body)
     .then(function() {
       res.status(200)
         .json({
@@ -67,7 +69,8 @@ router.post('/api/puppies', validPayload,
 // update puppy
 router.put('/api/puppies/:id', checkID, validPayload,
   function(req, res, next) {
-  db.none('update pups set $1~=$2 where id=$3', [req.body.column, req.body.value, req.params.id])
+  db.none('update pups set $1~=$2 where id=$3',
+          [req.body.column, req.body.value, req.params.id])
     .then(function() {
       res.status(200)
         .json({
