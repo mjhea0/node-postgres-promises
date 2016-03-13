@@ -107,18 +107,22 @@ router.delete('/api/puppies/:id', checkID,
 
 function checkID(req, res, next) {
   var pupID = req.params.id;
-  db.one('select id from pups where id = $1', pupID)
+  db.any('select id from pups where id = $1', pupID)
     .then(function(data) {
-      return next();
+      if(!data.length) {
+        /* jshint ignore:start */
+        res.status(400)
+          .json({
+            status: 'error',
+            message: `ID '${pupID}' does not exist.`
+          });
+        /* jshint ignore:end */
+      } else {
+        return next();
+      }
     })
     .catch(function(err) {
-      /* jshint ignore:start */
-      res.status(400)
-        .json({
-          status: 'error',
-          message: `ID '${pupID}' does not exist.`
-        });
-      /* jshint ignore:end */
+      return next(err);
     });
 }
 
