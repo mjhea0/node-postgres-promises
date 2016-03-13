@@ -22,7 +22,7 @@ router.get('/api/puppies', function(req, res, next) {
         .json({
           status: 'success',
           data: data,
-          message: 'Retrived ALL puppies'
+          message: 'Retrieved ALL puppies'
         });
     })
     .catch(function(err) {
@@ -40,7 +40,7 @@ router.get('/api/puppies/:id', checkID,
         .json({
           status: 'success',
           data: data,
-          message: 'Retrived ONE puppy'
+          message: 'Retrieved ONE puppy'
         });
     })
     .catch(function(err) {
