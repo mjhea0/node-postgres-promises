@@ -106,10 +106,10 @@ router.delete('/api/puppies/:id', checkID,
 // *** helper functions ** //
 
 function checkID(req, res, next) {
-  var pupID = req.params.id;
-  db.any('select id from pups where id = $1', pupID)
+  var pupID = parseInt(req.params.id);
+  db.oneOrNone('select id from pups where id = $1', pupID)
     .then(function(data) {
-      if(!data.length) {
+      if(!data) {
         /* jshint ignore:start */
         res.status(400)
           .json({
