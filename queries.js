@@ -19,9 +19,7 @@ function getAllPuppies(req, res, next) {
           message: 'Retrieved ALL puppies'
         });
     })
-    .catch(function (err) {
-      return next(err);
-    });
+    .catch(next);
 }
 
 function getSinglePuppy(req, res, next) {
@@ -35,9 +33,7 @@ function getSinglePuppy(req, res, next) {
           message: 'Retrieved ONE puppy'
         });
     })
-    .catch(function (err) {
-      return next(err);
-    });
+    .catch(next);
 }
 
 function createPuppy(req, res, next) {
@@ -52,9 +48,7 @@ function createPuppy(req, res, next) {
           message: 'Inserted one puppy'
         });
     })
-    .catch(function (err) {
-      return next(err);
-    });
+    .catch(next);
 }
 
 function updatePuppy(req, res, next) {
@@ -68,9 +62,7 @@ function updatePuppy(req, res, next) {
           message: 'Updated puppy'
         });
     })
-    .catch(function (err) {
-      return next(err);
-    });
+    .catch(next);
 }
 
 function removePuppy(req, res, next) {
@@ -85,9 +77,7 @@ function removePuppy(req, res, next) {
         });
       /* jshint ignore:end */
     })
-    .catch(function (err) {
-      return next(err);
-    });
+    .catch(next);
 }
 
 
