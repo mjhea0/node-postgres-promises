@@ -11,9 +11,10 @@
     "cookie-parser": "^1.4.3",
     "debug": "^2.2.0",
     "express": "^4.13.4",
-    "jade": "^1.11.0",
+	"jstransformer": "1.0.0",
     "morgan": "^1.6.1",
-    "pg-promise": "^3.9.1",
+    "pg-promise": "^5.6.4",
+    "pug": "^2.0.0-beta11",
     "serve-favicon": "^2.3.2"
   }
 }
