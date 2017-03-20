@@ -8,5 +8,5 @@ Check out the [blog post](http://mherman.org/blog/2016/03/13/designing-a-restful
 
 1. Fork/Clone
 1. Install dependencies - `npm install`
-1. Run - `psql -f puppies.sql`
+1. Run - `psql -U postgres -f puppies.sql`
 1. Run the development server - `npm start`
