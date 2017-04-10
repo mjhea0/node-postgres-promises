@@ -81,7 +81,7 @@ function removePuppy(req, res, next) {
       res.status(200)
         .json({
           status: 'success',
-          message: `Removed ${result.rowCount} puppy`
+          message: 'Removed ${result.rowCount} puppy'
         });
       /* jshint ignore:end */
     })
